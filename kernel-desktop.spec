@@ -22,7 +22,7 @@ AutoReqProv:   no
 
 Summary:       The Linux Kernel for Mandriva systems
 Provides:      %name = 2.6.39.1.1.1.desktop
-Group:         System/Kernel Environment
+Group:         System/Kernel and hardware 
 
 %description
 The Linux Kernel, the operating system core itself
