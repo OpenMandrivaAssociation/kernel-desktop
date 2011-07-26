@@ -12,6 +12,7 @@ ExclusiveArch: %ix86 x86_64
 BuildRoot:     %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 AutoReqProv:   no
 
+%global __debug_package 1
 %define debug_package %{nil}
 %define __check_files %{nil}
 %ifarch %ix86 x86_64
@@ -26,6 +27,25 @@ Group:         System/Kernel and hardware
 
 %description
 The Linux Kernel, the operating system core itself
+
+%package devel
+Summary:       The minimal Linux Kernel for building kernel modules
+Provides:      kernel-devel = 2.6.39.1.1.1
+Provides:      kernel-desktop-devel = 2.6.39.1.1.1
+BuildRequires: rsync
+
+%description -n kernel-desktop-devel
+This package provides kernel headers, makefiles and a couple
+of others files sufficient to build external kernel modules.
+
+%package debuginfo
+Summary:       The debug information for kernel-desktop
+Provides:      kernel-debuginfo = 2.6.39.1.1.1
+Provides:      kernel-desktop-debuginfo = 2.6.39.1.1.1
+
+%description -n kernel-desktop-debuginfo
+This package provides the kernel's debug information required
+by some binary object tools like kgdb, perf, etc...
 
 %prep
 %setup -q -n 2.6.39.1-1.1-desktop
@@ -47,6 +67,10 @@ cp .config    %{buildroot}/boot/config-2.6.39.1-1.1-desktop
 ln -snf /usr/src/devel/2.6.39.1-1.1-desktop %{buildroot}/lib/modules/2.6.39.1-1.1-desktop/build
 ln -snf build %{buildroot}/lib/modules/2.6.39.1-1.1-desktop/source
 
+mkdir -p %{buildroot}/usr/src/devel/2.6.39.1-1.1-desktop
+cat develfiles-%asmarch.list >>develfiles.list
+rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.1-1.1-desktop
+
 %post -n kernel-desktop
 /sbin/installkernel 2.6.39.1-1.1-desktop
 
@@ -64,6 +88,13 @@ rm -rf %{buildroot}
 %dir /lib/modules
 /lib/modules/2.6.39.1-1.1-desktop
 /boot
+
+%files -n kernel-desktop-devel
+%defattr (-, root, root)
+/usr/src/devel/2.6.39.1-1.1-desktop
+
+%files -n kernel-desktop-debuginfo -f debugfiles.list
+%defattr (-, root, root)
 
 %changelog
 * Tue Jul 26 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.1-1.1-desktop
