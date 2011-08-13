@@ -8,6 +8,7 @@ Version:       2.6.39.3
 Release:       %mkrel 1.1
 URL:           http://www.kernel.org
 Source:        kernel-2.6.39.3-1.1-desktop.tar.bz2
+Patch0:		kernel-2.6.39.3-1.1-desktop-btrfs-ro-mount.patch
 ExclusiveArch: %ix86 x86_64 
 BuildRoot:     %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 AutoReqProv:   no
@@ -49,6 +50,7 @@ by some binary object tools like kgdb, perf, etc...
 
 %prep
 %setup -q -n 2.6.39.3-1.1-desktop
+%patch0 -p1 -b .btrfs_mount~
 
 %build
 make defconfig
