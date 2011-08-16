@@ -4,11 +4,10 @@
 Name:          kernel-desktop
 Summary:       The Linux Kernel for Mandriva systems
 License:       GPLv2
-Version:       2.6.39.3
+Version:       2.6.39.4
 Release:       %mkrel 1.1
 URL:           http://www.kernel.org
-Source:        kernel-2.6.39.3-1.1-desktop.tar.bz2
-Patch0:		kernel-2.6.39.3-1.1-desktop-btrfs-ro-mount.patch
+Source:        kernel-2.6.39.4-1.1-desktop.tar.bz2
 ExclusiveArch: %ix86 x86_64 
 BuildRoot:     %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 AutoReqProv:   no
@@ -22,8 +21,8 @@ AutoReqProv:   no
 %endif
 
 Summary:       The Linux Kernel for Mandriva systems
-Provides:      kernel = 2.6.39.3.1.1
-Provides:      kernel-desktop = 2.6.39.3.1.1
+Provides:      kernel = 2.6.39.4.1.1
+Provides:      kernel-desktop = 2.6.39.4.1.1
 Group:         System/Kernel and hardware
 
 %description
@@ -31,8 +30,8 @@ The Linux Kernel, the operating system core itself
 
 %package devel
 Summary:       The minimal Linux Kernel for building kernel modules
-Provides:      kernel-devel = 2.6.39.3.1.1
-Provides:      kernel-desktop-devel = 2.6.39.3.1.1
+Provides:      kernel-devel = 2.6.39.4.1.1
+Provides:      kernel-desktop-devel = 2.6.39.4.1.1
 BuildRequires: rsync
 
 %description -n kernel-desktop-devel
@@ -41,21 +40,20 @@ of others files sufficient to build external kernel modules.
 
 %package debuginfo
 Summary:       The debug information for kernel-desktop
-Provides:      kernel-debuginfo = 2.6.39.3.1.1
-Provides:      kernel-desktop-debuginfo = 2.6.39.3.1.1
+Provides:      kernel-debuginfo = 2.6.39.4.1.1
+Provides:      kernel-desktop-debuginfo = 2.6.39.4.1.1
 
 %description -n kernel-desktop-debuginfo
 This package provides the kernel's debug information required
 by some binary object tools like kgdb, perf, etc...
 
 %prep
-%setup -q -n 2.6.39.3-1.1-desktop
-%patch0 -p1 -b .btrfs_mount~
+%setup -q -n 2.6.39.4-1.1-desktop
 
 %build
 make defconfig
 make -s kernelrelease
-test $(make -s kernelrelease) = 2.6.39.3-1.1-desktop
+test $(make -s kernelrelease) = 2.6.39.4-1.1-desktop
 make %{?_smp_mflags}
 
 %install
@@ -63,24 +61,24 @@ make -s INSTALL_MOD_PATH=%{buildroot} modules_install
 find %{buildroot} -name \*.ko -exec chmod u+x {} \;
 
 mkdir -p %{buildroot}/boot
-cp %{bzImage} %{buildroot}/boot/vmlinuz-2.6.39.3-1.1-desktop
-cp System.map %{buildroot}/boot/System.map-2.6.39.3-1.1-desktop
-cp .config    %{buildroot}/boot/config-2.6.39.3-1.1-desktop
-ln -snf /usr/src/devel/2.6.39.3-1.1-desktop %{buildroot}/lib/modules/2.6.39.3-1.1-desktop/build
-ln -snf build %{buildroot}/lib/modules/2.6.39.3-1.1-desktop/source
+cp %{bzImage} %{buildroot}/boot/vmlinuz-2.6.39.4-1.1-desktop
+cp System.map %{buildroot}/boot/System.map-2.6.39.4-1.1-desktop
+cp .config    %{buildroot}/boot/config-2.6.39.4-1.1-desktop
+ln -snf /usr/src/devel/2.6.39.4-1.1-desktop %{buildroot}/lib/modules/2.6.39.4-1.1-desktop/build
+ln -snf build %{buildroot}/lib/modules/2.6.39.4-1.1-desktop/source
 
-mkdir -p %{buildroot}/usr/src/devel/2.6.39.3-1.1-desktop
+mkdir -p %{buildroot}/usr/src/devel/2.6.39.4-1.1-desktop
 cat develfiles-%asmarch.list >>develfiles.list
-rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.3-1.1-desktop
+rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.4-1.1-desktop
 
 %post -n kernel-desktop
-/sbin/installkernel 2.6.39.3-1.1-desktop
+/sbin/installkernel 2.6.39.4-1.1-desktop
 
 %preun -n kernel-desktop
-/sbin/installkernel -R 2.6.39.3-1.1-desktop
+/sbin/installkernel -R 2.6.39.4-1.1-desktop
 
 %postun -n kernel-desktop
-/sbin/kernel_remove_initrd 2.6.39.3-1.1-desktop
+/sbin/kernel_remove_initrd 2.6.39.4-1.1-desktop
 
 %clean
 rm -rf %{buildroot}
@@ -88,20 +86,21 @@ rm -rf %{buildroot}
 %files -n kernel-desktop
 %defattr (-, root, root)
 %dir /lib/modules
-/lib/modules/2.6.39.3-1.1-desktop
+/lib/modules/2.6.39.4-1.1-desktop
 /boot
 
 %files -n kernel-desktop-devel
 %defattr (-, root, root)
-/usr/src/devel/2.6.39.3-1.1-desktop
+/usr/src/devel/2.6.39.4-1.1-desktop
 
 %files -n kernel-desktop-debuginfo -f debugfiles.list
 %defattr (-, root, root)
 
 %changelog
-* Thu Jul 28 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.3-1.1-desktop
-Andy Whitcroft <apw@canonical.com> (1):
+* Tue Aug 16 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.4-1.1-desktop
+Andy Whitcroft <apw@canonical.com> (2):
       UBUNTU: SAUCE: isapnp_init: make isa PNP scans occur async
+      btrfs: btrfs_calc_avail_data_space cope with no read/write devices V2
 
 Anonymous <anonymous@mandriva.com> (22):
       x86 cpufreq speedstep dothan 3
@@ -144,7 +143,7 @@ Franck Bui <franck.bui@mandriva.com> (5):
       kdist: make the config name part of the localversion
       ppscsi: build fix for 2.6.39
       gpu drm mach64 2.6.39 buildfix
-      Mandriva Release v2.6.39.3-1
+      Mandriva Release v2.6.39.4-1
 
 Go Taniguchi <go@turbolinux.co.jp> (5):
       Card bus's PCI last bus
@@ -171,8 +170,8 @@ Herton Ronaldo Krzesinski <herton@mandriva.com> (2):
       acpi processor M720SR limit to C2
       scsi ppscsi sg helper update
 
-Linus Torvalds <torvalds@linux-foundation.org> (1):
-      vfs: fix race in rcu lookup of pruned dentry
+Jonathan Nieder <jrnieder@gmail.com> (1):
+      perf tools: do not look at ./config for configuration
 
 Luiz Fernando N. Capitulino <lcapitulino@mandriva.com.br> (3):
       net netfilter IFWLOG mdv
