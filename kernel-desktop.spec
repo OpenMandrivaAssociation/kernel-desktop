@@ -5,9 +5,9 @@ Name:          kernel-desktop
 Summary:       The Linux Kernel for Mandriva systems
 License:       GPLv2
 Version:       2.6.39.4
-Release:       %mkrel 1.1
+Release:       %mkrel 2.1
 URL:           http://www.kernel.org
-Source:        kernel-2.6.39.4-1.1-desktop.tar.bz2
+Source:        kernel-2.6.39.4-2.1-desktop.tar.bz2
 ExclusiveArch: %ix86 x86_64 
 BuildRoot:     %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 AutoReqProv:   no
@@ -21,8 +21,8 @@ AutoReqProv:   no
 %endif
 
 Summary:       The Linux Kernel for Mandriva systems
-Provides:      kernel = 2.6.39.4.1.1
-Provides:      kernel-desktop = 2.6.39.4.1.1
+Provides:      kernel = 2.6.39.4.2.1
+Provides:      kernel-desktop = 2.6.39.4.2.1
 Group:         System/Kernel and hardware
 
 %description
@@ -30,8 +30,8 @@ The Linux Kernel, the operating system core itself
 
 %package devel
 Summary:       The minimal Linux Kernel for building kernel modules
-Provides:      kernel-devel = 2.6.39.4.1.1
-Provides:      kernel-desktop-devel = 2.6.39.4.1.1
+Provides:      kernel-devel = 2.6.39.4.2.1
+Provides:      kernel-desktop-devel = 2.6.39.4.2.1
 BuildRequires: rsync
 
 %description -n kernel-desktop-devel
@@ -40,20 +40,20 @@ of others files sufficient to build external kernel modules.
 
 %package debuginfo
 Summary:       The debug information for kernel-desktop
-Provides:      kernel-debuginfo = 2.6.39.4.1.1
-Provides:      kernel-desktop-debuginfo = 2.6.39.4.1.1
+Provides:      kernel-debuginfo = 2.6.39.4.2.1
+Provides:      kernel-desktop-debuginfo = 2.6.39.4.2.1
 
 %description -n kernel-desktop-debuginfo
 This package provides the kernel's debug information required
 by some binary object tools like kgdb, perf, etc...
 
 %prep
-%setup -q -n 2.6.39.4-1.1-desktop
+%setup -q -n 2.6.39.4-2.1-desktop
 
 %build
 make defconfig
 make -s kernelrelease
-test $(make -s kernelrelease) = 2.6.39.4-1.1-desktop
+test $(make -s kernelrelease) = 2.6.39.4-2.1-desktop
 make %{?_smp_mflags}
 
 %install
@@ -61,24 +61,24 @@ make -s INSTALL_MOD_PATH=%{buildroot} modules_install
 find %{buildroot} -name \*.ko -exec chmod u+x {} \;
 
 mkdir -p %{buildroot}/boot
-cp %{bzImage} %{buildroot}/boot/vmlinuz-2.6.39.4-1.1-desktop
-cp System.map %{buildroot}/boot/System.map-2.6.39.4-1.1-desktop
-cp .config    %{buildroot}/boot/config-2.6.39.4-1.1-desktop
-ln -snf /usr/src/devel/2.6.39.4-1.1-desktop %{buildroot}/lib/modules/2.6.39.4-1.1-desktop/build
-ln -snf build %{buildroot}/lib/modules/2.6.39.4-1.1-desktop/source
+cp %{bzImage} %{buildroot}/boot/vmlinuz-2.6.39.4-2.1-desktop
+cp System.map %{buildroot}/boot/System.map-2.6.39.4-2.1-desktop
+cp .config    %{buildroot}/boot/config-2.6.39.4-2.1-desktop
+ln -snf /usr/src/devel/2.6.39.4-2.1-desktop %{buildroot}/lib/modules/2.6.39.4-2.1-desktop/build
+ln -snf build %{buildroot}/lib/modules/2.6.39.4-2.1-desktop/source
 
-mkdir -p %{buildroot}/usr/src/devel/2.6.39.4-1.1-desktop
+mkdir -p %{buildroot}/usr/src/devel/2.6.39.4-2.1-desktop
 cat develfiles-%asmarch.list >>develfiles.list
-rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.4-1.1-desktop
+rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.4-2.1-desktop
 
 %post -n kernel-desktop
-/sbin/installkernel 2.6.39.4-1.1-desktop
+/sbin/installkernel 2.6.39.4-2.1-desktop
 
 %preun -n kernel-desktop
-/sbin/installkernel -R 2.6.39.4-1.1-desktop
+/sbin/installkernel -R 2.6.39.4-2.1-desktop
 
 %postun -n kernel-desktop
-/sbin/kernel_remove_initrd 2.6.39.4-1.1-desktop
+/sbin/kernel_remove_initrd 2.6.39.4-2.1-desktop
 
 %clean
 rm -rf %{buildroot}
@@ -86,111 +86,82 @@ rm -rf %{buildroot}
 %files -n kernel-desktop
 %defattr (-, root, root)
 %dir /lib/modules
-/lib/modules/2.6.39.4-1.1-desktop
+/lib/modules/2.6.39.4-2.1-desktop
 /boot
 
 %files -n kernel-desktop-devel
 %defattr (-, root, root)
-/usr/src/devel/2.6.39.4-1.1-desktop
+/usr/src/devel/2.6.39.4-2.1-desktop
 
 %files -n kernel-desktop-debuginfo -f debugfiles.list
 %defattr (-, root, root)
 
 %changelog
-* Tue Aug 16 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.4-1.1-desktop
-Andy Whitcroft <apw@canonical.com> (2):
-      UBUNTU: SAUCE: isapnp_init: make isa PNP scans occur async
-      btrfs: btrfs_calc_avail_data_space cope with no read/write devices V2
+* Fri Aug 19 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.4-2.1-desktop
+Alex Deucher <alexander.deucher@amd.com> (1):
+      drm/radeon/kms: fix regression is handling >2 heads on cedar/caicos
 
-Anonymous <anonymous@mandriva.com> (22):
-      x86 cpufreq speedstep dothan 3
-      pnp pnpbios off by default
-      acpi add proc event regs
-      scsi ppscsi-2.6.2
-      scsi ppscsi_fixes
-      scsi megaraid new sysfs name
-      ide pci sis5513 965
-      mpt scsi modules for VMWare's emulated
-      gpu drm mach64
-      gpu drm mach64 fix for changed drm_pci_alloc
-      gpu drm mach64 2.6.36 buildfix
-      net sis190 fix list usage
-      net netfilter IFWLOG
-      net netfilter IFWLOG 2.6.35 buildfix
-      net netfilter IFWLOG 2.6.37 buildfix
-      net netfilter psd
-      net netfilter psd 2.6.35 buildfix
-      include kbuild export pci_ids
-      sound alsa hda_intel prealloc 4mb dmabuffer
-      usb storage unusual_devs add id 2.6.37 buildfix
-      media video pwc lie in proc usb devices
-      media video pwc no ads in dmesg
+Alex Hacker <hacker@epn.ru> (1):
+      ath9k: fix a misprint which leads to incorrect calibration
 
-Ben Dooks <ben-linux@fluff.org> (1):
-      pci add ALI M5229 ide compatibility mode quirk
+Bob Copeland <me@bobcopeland.com> (1):
+      ath5k: fix error handling in ath5k_beacon_send
 
-Ben Hutchings <ben@decadent.org.uk> (1):
-      rndis_host: Poll status channel before control channel
+Bruce Allan <bruce.w.allan@intel.com> (1):
+      e1000e: alternate MAC address does not work on device id 0x1060
 
-Claudio Matsuoka <claudio@mandriva.com> (1):
-      sound alsa hda ad1884a hp dc model
+Chas Williams <chas@cmf.nrl.navy.mil> (1):
+      atm: br2864: sent packets truncated in VC routed mode
 
-Eric Piel <eric.piel@tremplin-utc.net> (1):
-      acpi dsdt initrd v0.9c 2.6.28
+Clemens Ladisch <clemens@ladisch.de> (1):
+      mm: fix wrong vmap address calculations with odd NR_CPUS values
 
-Franck Bui <franck.bui@mandriva.com> (5):
-      kdist: give a name to the config file
-      kdist: make the config name part of the localversion
-      ppscsi: build fix for 2.6.39
-      gpu drm mach64 2.6.39 buildfix
-      Mandriva Release v2.6.39.4-1
+Daniel Mack <zonque@gmail.com> (1):
+      ALSA: snd-usb-caiaq: Correct offset fields of outbound iso_frame_desc
 
-Go Taniguchi <go@turbolinux.co.jp> (5):
-      Card bus's PCI last bus
-      CLEVO M360S acpi irq workaround
-      Support a Bluetooth SCO.
-      Add blacklist of usb hid modules
-      Change to usb storage of unusual_dev.
+Franck Bui <franck.bui@mandriva.com> (1):
+      Mandriva Release v2.6.39.4-2
 
-Herton Ronaldo Krzesinski <herton@mandriva.com.br> (12):
-      x86 boot video 80x25 if break
-      x86 p4_clockmod reasonable default for scaling_min_freq
-      acpi dsdt initrd v0.9c fixes
-      acpi video add blacklist to use vendor driver
-      scsi ppscsi update for scsi_data_buffer
-      scsi ppscsi mdvbz45393
-      agp/intel: add new host bridge id for Q57 system
-      gpu drm mach64 fixes
-      gpu drm mach64 fix for changed drm_ioctl
-      platform x86 add shuttle wmi driver
-      bluetooth hci_usb disable isoc transfers
-      fb: avoid possible deadlock caused by fb_set_suspend
+Ionut Nicu <ionut.nicu@cloudbit.ro> (1):
+      USB: ftdi_sio: fix minor typo in get_ftdi_divisor
 
-Herton Ronaldo Krzesinski <herton@mandriva.com> (2):
-      acpi processor M720SR limit to C2
-      scsi ppscsi sg helper update
+JiSheng Zhang <jszhang3@gmail.com> (1):
+      USB: xhci: fix OS want to own HC
 
-Jonathan Nieder <jrnieder@gmail.com> (1):
-      perf tools: do not look at ./config for configuration
+Julia Lawall <julia@diku.dk> (1):
+      hwmon: (ibmaem) add missing kfree
 
-Luiz Fernando N. Capitulino <lcapitulino@mandriva.com.br> (3):
-      net netfilter IFWLOG mdv
-      ipt_psd: Mandriva changes
-      Mandriva Linux boot logo.
+Mark Brown <broonie@opensource.wolfsonmicro.com> (1):
+      ASoC: Fix binding of WM8750 on Jive
 
-Miklos Szeredi <mszeredi@suse.cz> (3):
-      vfs: add i_op->open()
-      vfs: export do_splice_direct() to modules
-      vfs: introduce clone_private_mount()
+Maxim Nikulin <m.a.nikulin@gmail.com> (1):
+      USB: assign instead of equal in usbtmc.c
 
-Olaf Dabrunz <od@suse.de> (1):
-      default to "power_off" when SMP kernel is used on single processo
+Nick Bowler <nbowler@elliptictech.com> (1):
+      USB: usb-storage: unusual_devs entry for ARM V2M motherboard.
 
-Steve Brokenshire <sbrokenshire@xestia.co.uk> (1):
-      kbuild compress kernel modules on installation
+Peter Zijlstra <a.p.zijlstra@chello.nl> (1):
+      perf: Fix SIGIO handling
 
-Thomas Backlund <tmb@mandriva.org> (3):
-      x86 pci toshiba equium a60 assign busses
-      Adapt mach64 to build with 2.6.31 series kernels
-      gpu drm mach64 2.6.37 buildfix
+Peter Zijlstra <peterz@infradead.org> (1):
+      mm: Fix fixup_user_fault() for MMU=n
+
+Rajkumar Manoharan <rmanohar@qca.qualcomm.com> (2):
+      ath9k_hw: Fix incorrect Tx control power in AR9003 template
+      ath9k_hw: update PMU to improve ripple issue for AR9485
+
+Rusty Russell <rusty@rustcorp.com.au> (1):
+      lguest: allow booting guest with CONFIG_RELOCATABLE=y
+
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> (1):
+      usb/config: use proper endian access for wMaxPacketSize
+
+Stefan Lippers-Hollmann <s.L-H@gmx.de> (1):
+      staging: rtl8192u: declare MODULE_FIRMWARE
+
+Stephen Warren <swarren@nvidia.com> (1):
+      ASoC: Tegra: tegra_pcm_deallocate_dma_buffer: Don't OOPS
+
+Vijay Chavan <vijaychavan007@gmail.com> (1):
+      USB: Serial: Added device ID for Qualcomm Modem in Sagemcom's HiLo3G
 
