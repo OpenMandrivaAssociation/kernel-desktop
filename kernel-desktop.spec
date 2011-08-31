@@ -5,9 +5,9 @@ Name:          kernel-desktop
 Summary:       The Linux Kernel for Mandriva systems
 License:       GPLv2
 Version:       2.6.39.4
-Release:       %mkrel 3.1
+Release:       %mkrel 3.2
 URL:           http://www.kernel.org
-Source:        kernel-2.6.39.4-3.1+-desktop.tar.bz2
+Source:        kernel-2.6.39.4-3.2-desktop.tar.bz2
 ExclusiveArch: %ix86 x86_64 
 BuildRoot:     %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
 AutoReqProv:   no
@@ -21,8 +21,8 @@ AutoReqProv:   no
 %endif
 
 Summary:       The Linux Kernel for Mandriva systems
-Provides:      kernel = 2.6.39.4.3.1
-Provides:      kernel-desktop = 2.6.39.4.3.1
+Provides:      kernel = 2.6.39.4.3.2
+Provides:      kernel-desktop = 2.6.39.4.3.2
 Group:         System/Kernel and hardware
 
 %description
@@ -30,8 +30,8 @@ The Linux Kernel, the operating system core itself
 
 %package devel
 Summary:       The minimal Linux Kernel for building kernel modules
-Provides:      kernel-devel = 2.6.39.4.3.1
-Provides:      kernel-desktop-devel = 2.6.39.4.3.1
+Provides:      kernel-devel = 2.6.39.4.3.2
+Provides:      kernel-desktop-devel = 2.6.39.4.3.2
 BuildRequires: rsync
 
 %description -n kernel-desktop-devel
@@ -40,20 +40,20 @@ of others files sufficient to build external kernel modules.
 
 %package debuginfo
 Summary:       The debug information for kernel-desktop
-Provides:      kernel-debuginfo = 2.6.39.4.3.1
-Provides:      kernel-desktop-debuginfo = 2.6.39.4.3.1
+Provides:      kernel-debuginfo = 2.6.39.4.3.2
+Provides:      kernel-desktop-debuginfo = 2.6.39.4.3.2
 
 %description -n kernel-desktop-debuginfo
 This package provides the kernel's debug information required
 by some binary object tools like kgdb, perf, etc...
 
 %prep
-%setup -q -n 2.6.39.4-3.1+-desktop
+%setup -q -n 2.6.39.4-3.2-desktop
 
 %build
 make defconfig
 make -s kernelrelease
-test $(make -s kernelrelease) = 2.6.39.4-3.1+-desktop
+test $(make -s kernelrelease) = 2.6.39.4-3.2-desktop
 make %{?_smp_mflags}
 
 %install
@@ -61,24 +61,24 @@ make -s INSTALL_MOD_PATH=%{buildroot} modules_install
 find %{buildroot} -name \*.ko -exec chmod u+x {} \;
 
 mkdir -p %{buildroot}/boot
-cp %{bzImage} %{buildroot}/boot/vmlinuz-2.6.39.4-3.1+-desktop
-cp System.map %{buildroot}/boot/System.map-2.6.39.4-3.1+-desktop
-cp .config    %{buildroot}/boot/config-2.6.39.4-3.1+-desktop
-ln -snf /usr/src/devel/2.6.39.4-3.1+-desktop %{buildroot}/lib/modules/2.6.39.4-3.1+-desktop/build
-ln -snf build %{buildroot}/lib/modules/2.6.39.4-3.1+-desktop/source
+cp %{bzImage} %{buildroot}/boot/vmlinuz-2.6.39.4-3.2-desktop
+cp System.map %{buildroot}/boot/System.map-2.6.39.4-3.2-desktop
+cp .config    %{buildroot}/boot/config-2.6.39.4-3.2-desktop
+ln -snf /usr/src/devel/2.6.39.4-3.2-desktop %{buildroot}/lib/modules/2.6.39.4-3.2-desktop/build
+ln -snf build %{buildroot}/lib/modules/2.6.39.4-3.2-desktop/source
 
-mkdir -p %{buildroot}/usr/src/devel/2.6.39.4-3.1+-desktop
+mkdir -p %{buildroot}/usr/src/devel/2.6.39.4-3.2-desktop
 cat develfiles-%asmarch.list >>develfiles.list
-rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.4-3.1+-desktop
+rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/2.6.39.4-3.2-desktop
 
 %post -n kernel-desktop
-/sbin/installkernel 2.6.39.4-3.1+-desktop
+/sbin/installkernel 2.6.39.4-3.2-desktop
 
 %preun -n kernel-desktop
-/sbin/installkernel -R 2.6.39.4-3.1+-desktop
+/sbin/installkernel -R 2.6.39.4-3.2-desktop
 
 %postun -n kernel-desktop
-/sbin/kernel_remove_initrd 2.6.39.4-3.1+-desktop
+/sbin/kernel_remove_initrd 2.6.39.4-3.2-desktop
 
 %clean
 rm -rf %{buildroot}
@@ -86,18 +86,18 @@ rm -rf %{buildroot}
 %files -n kernel-desktop
 %defattr (-, root, root)
 %dir /lib/modules
-/lib/modules/2.6.39.4-3.1+-desktop
+/lib/modules/2.6.39.4-3.2-desktop
 /boot
 
 %files -n kernel-desktop-devel
 %defattr (-, root, root)
-/usr/src/devel/2.6.39.4-3.1+-desktop
+/usr/src/devel/2.6.39.4-3.2-desktop
 
 %files -n kernel-desktop-debuginfo -f debugfiles.list
 %defattr (-, root, root)
 
 %changelog
-* Tue Aug 30 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.4-3.1+-desktop
+* Wed Aug 31 2011 Franck Bui <franck.bui@mandriva.com> 2.6.39.4-3.2-desktop
 Chaoming Li <chaoming_li@realsil.com.cn> (14):
       rtlwifi: rtl8192ce: Fix LED initialization
       rtlwifi: rtl8192se: Merge def.h
