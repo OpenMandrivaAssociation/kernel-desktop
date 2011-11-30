@@ -4,10 +4,10 @@
 Name:          kernel-desktop
 Summary:       The Linux Kernel for Mandriva systems
 License:       GPLv2
-Version:       3.1.3
+Version:       3.1.4
 Release:       %mkrel 1.1
 URL:           http://www.kernel.org
-Source:        kernel-desktop-3.1.3-1.tar.bz2
+Source:        kernel-desktop-3.1.4-1.tar.bz2
 ExclusiveArch: %ix86 x86_64 
 BuildRoot:     %{_tmppath}/%{name}-%{version}-root
 
@@ -57,12 +57,12 @@ This package provides the kernel's debug information required
 by some binary object tools like kgdb, perf, etc...
 
 %prep
-%setup -q -n kernel-desktop-3.1.3-1
+%setup -q -n kernel-desktop-3.1.4-1
 
 %build
 make defconfig
 make -s kernelrelease
-test $(make -s kernelrelease) = 3.1.3-1.1-desktop
+test $(make -s kernelrelease) = 3.1.4-1.1-desktop
 make %{?_smp_mflags}
 
 %install
@@ -70,24 +70,24 @@ make -s INSTALL_MOD_PATH=%{buildroot} modules_install
 find %{buildroot} -name \*.ko -exec chmod u+x {} \;
 
 mkdir -p %{buildroot}/boot
-cp %{bzImage} %{buildroot}/boot/vmlinuz-3.1.3-1.1-desktop
-cp System.map %{buildroot}/boot/System.map-3.1.3-1.1-desktop
-cp .config    %{buildroot}/boot/config-3.1.3-1.1-desktop
-ln -snf /usr/src/devel/3.1.3-1.1-desktop %{buildroot}/lib/modules/3.1.3-1.1-desktop/build
-ln -snf build %{buildroot}/lib/modules/3.1.3-1.1-desktop/source
+cp %{bzImage} %{buildroot}/boot/vmlinuz-3.1.4-1.1-desktop
+cp System.map %{buildroot}/boot/System.map-3.1.4-1.1-desktop
+cp .config    %{buildroot}/boot/config-3.1.4-1.1-desktop
+ln -snf /usr/src/devel/3.1.4-1.1-desktop %{buildroot}/lib/modules/3.1.4-1.1-desktop/build
+ln -snf build %{buildroot}/lib/modules/3.1.4-1.1-desktop/source
 
-mkdir -p %{buildroot}/usr/src/devel/3.1.3-1.1-desktop
+mkdir -p %{buildroot}/usr/src/devel/3.1.4-1.1-desktop
 cat develfiles-%asmarch.list >>develfiles.list
-rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/3.1.3-1.1-desktop
+rsync -ar --files-from=develfiles.list . %{buildroot}/usr/src/devel/3.1.4-1.1-desktop
 
 %post -n kernel-desktop
-/sbin/installkernel %{instkern_opts} 3.1.3-1.1-desktop
+/sbin/installkernel %{instkern_opts} 3.1.4-1.1-desktop
 
 %preun -n kernel-desktop
-/sbin/installkernel -R 3.1.3-1.1-desktop
+/sbin/installkernel -R 3.1.4-1.1-desktop
 
 %postun -n kernel-desktop
-/sbin/kernel_remove_initrd 3.1.3-1.1-desktop
+/sbin/kernel_remove_initrd 3.1.4-1.1-desktop
 
 %clean
 rm -rf %{buildroot}
@@ -95,19 +95,19 @@ rm -rf %{buildroot}
 %files -n kernel-desktop
 %defattr (-, root, root)
 %dir /lib/modules
-/lib/modules/3.1.3-1.1-desktop
+/lib/modules/3.1.4-1.1-desktop
 /boot
 
 %files -n kernel-desktop-devel
 %defattr (-, root, root)
-/usr/src/devel/3.1.3-1.1-desktop
+/usr/src/devel/3.1.4-1.1-desktop
 
 %files -n kernel-desktop-debuginfo -f debugfiles.list
 %defattr (-, root, root)
 
 %changelog
-* Sun Nov 27 2011 Franck Bui <franck.bui@mandriva.com> 3.1.3-1.1-desktop
-  + Mandriva Release v3.1.3-1
+* Wed Nov 30 2011 Franck Bui <franck.bui@mandriva.com> 3.1.4-1.1-desktop
+  + Mandriva Release v3.1.4-1
   + pci: Rework ASPM disable code
   + usb: ehci: make HC see up-to-date qh/qtd descriptor ASAP
   + btrfs: btrfs_calc_avail_data_space cope with no read/write devices V2
