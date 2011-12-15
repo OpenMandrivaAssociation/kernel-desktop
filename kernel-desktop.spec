@@ -5,12 +5,12 @@
 %define version		3.1.5
 
 %define src_uname_r	3.1.5-1
-%define uname_r		3.1.5-1.666-desktop%{nil}
+%define uname_r		3.1.5-1.667-desktop%{nil}
 
 %define source_release	1
-%define build_release	666%{nil}
+%define build_release	667%{nil}
 
-%define archive		kernel-desktop-3.1.5-1.666
+%define archive		kernel-desktop-3.1.5-1.667
 
 %define build_srpm	1
 %define no_source	1
@@ -31,7 +31,7 @@
 %endif
 Name:			%{name}
 Version:		%{version}
-Release:		%{source_release}.%{build_release}
+Release:		%mkrel %{source_release}.%{build_release}
 License:		GPLv2
 URL:			http://www.kernel.org
 ExclusiveArch:		%{exclusive}
@@ -45,10 +45,10 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-root
 %define __check_files	%{nil}
 
 Source0:		%{archive}.tar.bz2
-Source1:		3.1.5-1.666-desktop-x86_64-defconfig
-Source2:		3.1.5-1.666-desktop-x86-develfiles.list
-Source3:		3.1.5-1.666-desktop-develfiles.list
-Source4:		3.1.5-1.666-desktop-generated-develfiles.list
+Source1:		3.1.5-1.667-desktop-x86_64-defconfig
+Source2:		3.1.5-1.667-desktop-x86-develfiles.list
+Source3:		3.1.5-1.667-desktop-develfiles.list
+Source4:		3.1.5-1.667-desktop-generated-develfiles.list
 
 Summary:		The Linux Kernel for Mandriva %{flavour} systems
 Provides:		kernel = %{version}-%{release}
@@ -60,7 +60,7 @@ Requires(pre):		module-init-tools
 BuildRequires:		module-init-tools
 
 %if %no_source
-BuildRequires:		kernel-source = %{version}-%{source_release}
+BuildRequires:		kernel-source = %{version}-%{mkrel %{source_release}}
 %endif
 
 %if %build_devel
@@ -69,7 +69,6 @@ Summary:		The minimal Linux Kernel for building %{flavour} kernel modules
 Provides:		kernel-devel = %{version}-%{release}
 Group:			Development/Kernel
 AutoReqProv:		no
-BuildRequires:		rsync
 %endif
 
 %if %build_debug
@@ -157,7 +156,7 @@ cd source
 %endif
 
 for list in %{_sourcedir}/%{uname_r}{,-%asmarch}-develfiles.list; do
-	rsync -ar --files-from=$list . %{buildroot}%{kdevel_path}
+	tar -cf - --files-from=$list | tar -xf - -C %{buildroot}%{kdevel_path}
 done
 
 %if %no_source
@@ -165,8 +164,12 @@ cd -
 %endif
 
 list=%{_sourcedir}/%{uname_r}-generated-develfiles.list
-rsync -ar --files-from=$list . %{buildroot}%{kdevel_path}
+tar -cf - --files-from=$list | tar -xf - -C %{buildroot}%{kdevel_path}
+
 %endif
+
+# DEBUG
+false
 
 %clean
 rm -rf %{buildroot}
@@ -214,7 +217,7 @@ make -s -C %{kdevel_path} mrproper
 %endif
 
 %changelog
-* Thu Dec 15 2011 Franck Bui <franck.bui@mandriva.com> 3.1.5-1.666-desktop
+* Thu Dec 15 2011 Franck Bui <franck.bui@mandriva.com> 3.1.5-1.667-desktop
   + Mandriva Release v3.1.5-1
   + pci: Rework ASPM disable code
   + usb: ehci: make HC see up-to-date qh/qtd descriptor ASAP
