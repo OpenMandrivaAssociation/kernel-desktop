@@ -53,7 +53,7 @@ Source3:		%{uname_r}-x86_64-defconfig
 Source4:		%{uname_r}-develfiles.list
 Source5:		%{uname_r}-output-develfiles.list
 Requires:		kernel-firmware
-Requires(pre):		bootloader-utils
+Requires(pre):		bootloader-utils >= 1.15-8
 Requires(pre):		mkinitrd
 Requires(pre):		module-init-tools
 BuildRequires:		module-init-tools
