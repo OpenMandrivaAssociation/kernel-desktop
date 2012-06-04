@@ -20,8 +20,8 @@
 
 # binary specific macros
 %define flavour		desktop
-%define uname_r		3.4.0-2.1-desktop
-%define exclusive	%ix86 x86_64
+%define uname_r		3.4.0-2.2-desktop
+%define exclusive	%{ix86} x86_64
 %define kdevel_path	/usr/src/devel/%{uname_r}
 
 %ifarch %ix86
