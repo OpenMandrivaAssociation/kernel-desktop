@@ -284,7 +284,6 @@ debugedit -b %{_builddir} -d /usr/src/debug \
 %endif
 %endif
 
-echo "Creating module.description for $i"
 modules=`find %{buildroot}/lib/modules/%{uname_r} -name "*.ko*"`
 echo $modules | %kxargs /sbin/modinfo \
 		| perl -lne 'print "$name\t$1" if $name && /^description:\s*(.*)/; $name = $1 if m!^filename:\s*(.*)\.k?o!; $name =~ s!.*/!!' \
