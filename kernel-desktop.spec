@@ -5,7 +5,7 @@
 %define version		3.4.1
 %define src_uname_r	3.4.1-1
 %define source_release	1
-%define build_release	2%{nil}
+%define build_release	3%{nil}
 %define archive		kernel-desktop-3.4.1-1.1
 
 %define build_srpm	1
@@ -20,7 +20,7 @@
 
 # binary specific macros
 %define flavour		desktop
-%define uname_r		3.4.1-1.2-desktop
+%define uname_r		3.4.1-1.3-desktop
 %define exclusive	%ix86 x86_64
 %define kdevel_path	/usr/src/devel/%{uname_r}
 
