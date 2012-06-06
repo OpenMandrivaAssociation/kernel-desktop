@@ -5,7 +5,7 @@
 %define version		3.4.1
 %define src_uname_r	3.4.1-1
 %define source_release	1
-%define build_release	3%{nil}
+%define build_release	4%{nil}
 %define archive		kernel-desktop-3.4.1-1.1
 
 %define build_srpm	1
@@ -20,7 +20,7 @@
 
 # binary specific macros
 %define flavour		desktop
-%define uname_r		3.4.1-1.3-desktop
+%define uname_r		3.4.1-1.4-desktop
 %define exclusive	%ix86 x86_64
 %define kdevel_path	/usr/src/devel/%{uname_r}
 
@@ -59,7 +59,7 @@ Source4:		%{uname_r}-develfiles.list
 Source5:		%{uname_r}-output-develfiles.list
 Requires:		kernel-firmware
 Requires(pre):		bootloader-utils
-Requires(pre):		mkinitrd
+Requires(pre):		mkinitrd-command
 Requires(pre):		module-init-tools
 BuildRequires:		module-init-tools
 %if %no_source
