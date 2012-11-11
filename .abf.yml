@@ -1,0 +1,7 @@
+sources:
+  "3.4.1-1.4-desktop-develfiles.list:"	84fec834aa9658e8e5ee930f9086fea4a5f77f81
+  "3.4.1-1.4-desktop-output-develfiles.list:"	a600a394ead36c066a7a0218530ef41803859b5b
+  "3.4.1-1.4-desktop-x86_32-defconfig:"	6b494adbb6a889eeff41453b8e9a0b26eb22f9da
+  "3.4.1-1.4-desktop-x86_64-defconfig:"	0eaee3581f654fce4f086bc52968c20040f645de
+  "3.4.1-1.4-desktop-x86-develfiles.list:"	816f568625dbc8331752d36d74dacba438119059
+  "kernel-desktop-3.4.1-1.1.tar.bz2:"	b7890155ad5623ca76d225dec3b29108db54cadc
